@@ -13,6 +13,9 @@
 * FastLED
 * Homie
 
+# Assemble
+[![Word-Clock - Die WLAN Wort-Uhr zum selber bauen](https://img.youtube.com/vi/FvAM1t0tISE/0.jpg)](https://www.youtube.com/watch?v=FvAM1t0tISE)
+
 # Installation
 - Rename the file `data/homie/example.config.json` to `data/homie/config.json` and fill it with your data.
 - Upload the data to your Wemos D1 mini (or other ESP8266). You can find a howto at http://esp8266.github.io/Arduino/versions/2.3.0/doc/filesystem.html#uploading-files-to-file-system.
