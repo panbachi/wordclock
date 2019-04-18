@@ -26,7 +26,7 @@
 For now there are two MQTT services available. This part will be changed completely in future.
 
 ## Set color
-Send the color (`rrggbb`, example for white: `ffffff`) to the address `/wordclock/c01/color/rgb/set`
+Send the color (`rrggbb`, example for white: `ffffff`) to the address `/wordclock/c01/color/color/set`
 
 ## Set time offset
 Send the offset in hours to the address `/wordclock/c01/offset/offset/set`
