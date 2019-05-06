@@ -1,6 +1,7 @@
 #include <Homie.h>
 #include <FastLED.h>
 #include <NTPClient.h>
+
 #define NUM_LEDS 121
 #define DATA_PIN D4
 
@@ -9,6 +10,8 @@ int r = 255;
 int g = 255;
 int b = 255;
 int offset = 0;
+int hour = -1;
+int minute = -1;
 
 WiFiUDP ntpUDP;
 
@@ -76,20 +79,24 @@ void setTime(int hour, int minute) {
   minute = minute / 5;
   hour = hour % 12;
 
+  // RESET
   for(int i = 0; i < NUM_LEDS; i++) {
     leds[i].setRGB(0, 0, 0);
   }
   
+  // ES IST
   for(int i = 0; i < 5; i++) {
     leds[it_is[i]].setRGB(r,g,b);
   }
 
+  // MINUTES
   for(int m = 0; m < 12; m++) {
     if(minutes[minute][m] >= 0) {
       leds[minutes[minute][m]].setRGB(r,g,b);
     }
   }
 
+  // HOURS
   for(int h = 0; h < 6; h++) {
     if(hours[hour][h] >= 0) {
       if(hour == 1 && minute == 0 && h == 3) {
@@ -104,7 +111,15 @@ void setTime(int hour, int minute) {
 
 void loopHandler() {
   timeClient.update();
-  setTime(timeClient.getHours(), timeClient.getMinutes());
+  
+  int h = timeClient.getHours();
+  int m = timeClient.getMinutes();
+
+  if(h != hour || m != minute) {
+    setTime(h, m);
+    hour = h;
+    minute = m;
+  }
 }
 
 void setup() {
@@ -115,9 +130,9 @@ void setup() {
   FastLED.setBrightness( 40 );
 
   Homie_setBrand("wordclock");
-  Homie_setFirmware("Panbachi WordClock", "1.0.0");
+  Homie_setFirmware("Panbachi WordClock", "1.1.0");
 
-  colorNode.advertise("hex").settable(colorHandler);
+  colorNode.advertise("color").settable(colorHandler);
   offsetNode.advertise("offset").settable(offsetHandler);
   Homie.setLoopFunction(loopHandler);
 
@@ -131,6 +146,8 @@ void setup() {
   FastLED.show();
 
   Homie.setup();
+  
+  WiFi.setSleepMode(WIFI_NONE_SLEEP);
 }
 
 void loop() {
