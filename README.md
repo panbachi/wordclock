@@ -18,12 +18,12 @@
 [![Word-Clock - Die WLAN Wort-Uhr zum selber bauen](https://img.youtube.com/vi/FvAM1t0tISE/0.jpg)](https://www.youtube.com/watch?v=FvAM1t0tISE)
 
 # Installation
-- Change 
+- Change the WiFi credentials in whe `wordclock/wordclock.ini`.
 - Upload the sketch `wordclock/wordclock.ino` to your Wemos D1 mini (or other ESP8266).
 - Enjoy
 
 # Usage
-Check in your router what IP-adress your Wemos got. Open a webbrowser and go to http://[YOUR_WEMOS_IP]. For (example) the IP-adress 192.168.178.20 go to http://192.168.178.20.
+Check in your router what IP-adress your Wemos got. Open a webbrowser and go to `http://[YOUR_WEMOS_IP]`. For (example) the IP-adress `192.168.178.20` go to `http://192.168.178.20`.
 
 # Functions
 
@@ -33,13 +33,13 @@ Check in your router what IP-adress your Wemos got. Open a webbrowser and go to 
 You can set a foreground and background color on your clock.
 
 #### API example
-http://[YOUR_WEMOS_IP]/?mode=time&fg=#ffffff&bg=#000000
+`http://[YOUR_WEMOS_IP]/?mode=time&fg=#ffffff&bg=#000000`
 
-## Set time offset
+### Set time offset
 You can set a time offset to specify your timezone.
 
 #### API example
-http://[YOUR_WEMOS_IP]/?mode=time&tz=3
+`http://[YOUR_WEMOS_IP]/?mode=time&tz=3`
 
 
 ## Mode = Icon
@@ -48,7 +48,7 @@ http://[YOUR_WEMOS_IP]/?mode=time&tz=3
 For now there are some (not so good looking) icons implemented. They will be changed in future.
 
 #### API example
-http://[YOUR_WEMOS_IP]/?mode=icon&icon=sun
+`http://[YOUR_WEMOS_IP]/?mode=icon&icon=sun`
 
 
 ## Mode = Degree
@@ -57,7 +57,7 @@ http://[YOUR_WEMOS_IP]/?mode=icon&icon=sun
 Not it is possible to display degree values for temperatures. The values could be send for example by a home automation software.
 
 #### API example
-http://[YOUR_WEMOS_IP]/?mode=degree&degree=27
+`http://[YOUR_WEMOS_IP]/?mode=degree&degree=27`
 
 # Support me / Follow me
 [![Web](https://img.shields.io/badge/www-panbachi.de-blue.svg?style=flat-square&colorB=3d72a8&colorA=333333)](https://www.panbachi.de)
