@@ -8,17 +8,17 @@
 # Requirements
 
 ## Healthcheck
-* FastLED
+* [FastLED](https://github.com/FastLED/FastLED)
 
 ## WordClock
-* FastLED
-* NTPClient
+* [FastLED](https://github.com/FastLED/FastLED)
+* [NTPClient](https://github.com/arduino-libraries/NTPClient)
 
 # Assemble
 [![Word-Clock - Die WLAN Wort-Uhr zum selber bauen](https://img.youtube.com/vi/FvAM1t0tISE/0.jpg)](https://www.youtube.com/watch?v=FvAM1t0tISE)
 
 # Installation
-- Change the WiFi credentials in whe `wordclock/wordclock.ini`.
+- Change the WiFi credentials in the `wordclock/wordclock.ino`.
 - Upload the sketch `wordclock/wordclock.ino` to your Wemos D1 mini (or other ESP8266).
 - Enjoy
 
@@ -54,7 +54,7 @@ For now there are some (not so good looking) icons implemented. They will be cha
 ## Mode = Degree
 
 ### Set degree
-Not it is possible to display degree values for temperatures. The values could be send for example by a home automation software.
+It's possible to display degree values for temperatures. The values could be send for example by a home automation software.
 
 #### API example
 `http://[YOUR_WEMOS_IP]/?mode=degree&degree=27`
