@@ -1,5 +1,5 @@
 # WordClock
-[![Version](https://img.shields.io/badge/version-2.0.0-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/version-3.0.0-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](#)
 
 [![maintainer](https://img.shields.io/badge/maintainer-Goran%20Zunic%20%40panbachi-blue.svg?style=for-the-badge)](https://www.panbachi.de)
 
@@ -13,17 +13,25 @@
 ## WordClock
 * [FastLED](https://github.com/FastLED/FastLED)
 * [NTPClient](https://github.com/arduino-libraries/NTPClient)
+* [WifiManager](https://github.com/tzapu/WiFiManager)
+* [ArduinoJson](https://github.com/bblanchon/ArduinoJson)
 
 # Assemble
 [![Word-Clock - Die WLAN Wort-Uhr zum selber bauen](https://img.youtube.com/vi/FvAM1t0tISE/0.jpg)](https://www.youtube.com/watch?v=FvAM1t0tISE)
 
+# Customizations
+- If you connect additional 4 LEDs to the end of the stripe, they will be used to show the single minutes. This will work automatically without the need of any configuration.
+- You can now use an 11x11 or 11x10 grid for the clock. This can be configured in the `wordclock/wordclock.ino`.
+- You can define the position of the first LED in the `wordclock/wordclock.ino`
+
 # Installation
-- Change the WiFi credentials in the `wordclock/wordclock.ino`.
+- Change the grid settings in the `wordclock/wordclock.ino`.
 - Upload the sketch `wordclock/wordclock.ino` to your Wemos D1 mini (or other ESP8266).
 - Enjoy
 
 # Usage
-Check in your router what IP-adress your Wemos got. Open a webbrowser and go to `http://[YOUR_WEMOS_IP]`. For (example) the IP-adress `192.168.178.20` go to `http://192.168.178.20`.
+The WordClock creates a WiFi-Hotspot with the name "WordClock". Connect e.g. your smartphone to the hotspot and you will be forwared to the config page, where you can set the WiFi credentials.
+Check in your router what IP-adress your WordClock got. Open a webbrowser and go to `http://[YOUR_WORDCLOCK_IP]`. For (example) the IP-adress `192.168.178.20` go to `http://192.168.178.20`.
 
 # Functions
 
@@ -33,31 +41,21 @@ Check in your router what IP-adress your Wemos got. Open a webbrowser and go to 
 You can set a foreground and background color on your clock.
 
 #### API example
-`http://[YOUR_WEMOS_IP]/?mode=time&fg=#ffffff&bg=#000000`
+`http://[YOUR_WORDCLOCK_IP]/?mode=time&fg=#ffffff&bg=#000000`
 
 ### Set time offset
 You can set a time offset to specify your timezone.
 
 #### API example
-`http://[YOUR_WEMOS_IP]/?mode=time&tz=3`
+`http://[YOUR_WORDCLOCK_IP]/?mode=time&tz=3`
 
-
-## Mode = Icon
-
-### Set icon
-For now there are some (not so good looking) icons implemented. They will be changed in future.
+### Set DND
+You can set a time span in which the clock should be switched off.
 
 #### API example
-`http://[YOUR_WEMOS_IP]/?mode=icon&icon=sun`
+`http://[YOUR_WORDCLOCK_IP]/?mode=time&dnd_active=1&dnd_start_hour=23&dnd_start_minute=0&dnd_end_hour=6&dnd_end_hour=15`
 
 
-## Mode = Degree
-
-### Set degree
-It's possible to display degree values for temperatures. The values could be send for example by a home automation software.
-
-#### API example
-`http://[YOUR_WEMOS_IP]/?mode=degree&degree=27`
 
 # Support me / Follow me
 [![Web](https://img.shields.io/badge/www-panbachi.de-blue.svg?style=flat-square&colorB=3d72a8&colorA=333333)](https://www.panbachi.de)
