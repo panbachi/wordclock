@@ -1,3 +1,6 @@
+#ifndef WORDCLOCK_GUI_H
+#define WORDCLOCK_GUI_H
+
 String&& GUI_pad(int value) {
   if(value < 10) {
     return std::move("0" + String(value));
@@ -252,3 +255,4 @@ void GUI_handleRootPath() {
   SERVER.send(200, "text/html", content);
  
 }
+#endif

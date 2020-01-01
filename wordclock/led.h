@@ -1,3 +1,6 @@
+#ifndef WORDCLOCK_LED_H
+#define WORDCLOCK_LED_H
+
 #define NUM_LEDS (GRID_ROWS * GRID_COLS) + 4
 
 CRGB leds[NUM_LEDS];
@@ -23,3 +26,4 @@ int getLedId(int id) {
 
   return led;
 }
+#endif

@@ -1,3 +1,5 @@
+#ifndef WORDCLOCK_DND_H
+#define WORDCLOCK_DND_H
 class DND {
   static bool active(int hour, int minute) {
     if(!Config::dnd_active) {
@@ -26,4 +28,5 @@ class DND {
     
     return false;  
   }
-}
+};
+#endif

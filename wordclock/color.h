@@ -1,3 +1,5 @@
+#ifndef WORDCLOCK_COLOR_H
+#define WORDCLOCK_COLOR_H
 class Color {
   public:
     static color_t hexToRgb(String value) {
@@ -30,3 +32,4 @@ class Color {
     }
 
 };
+#endif

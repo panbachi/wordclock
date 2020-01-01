@@ -1,3 +1,6 @@
+#ifndef WORDCLOCK_SERVER_H
+#define WORDCLOCK_SERVER_H
+
 ESP8266WebServer SERVER(80);
 String SERVER_IP = "";
 
@@ -66,3 +69,4 @@ void SERVER_setup() {
 void SERVER_loop() {
   SERVER.handleClient();
 }
+#endif

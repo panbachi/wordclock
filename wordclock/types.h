@@ -1,3 +1,5 @@
+#ifndef WORDCLOCK_TYPES_H
+#define WORDCLOCK_TYPES_H
 typedef struct { 
   int r;
   int g;
@@ -18,3 +20,4 @@ typedef struct {
   clock_time_t dnd_end;
   String ntp;
 } config_t;*/
+#endif

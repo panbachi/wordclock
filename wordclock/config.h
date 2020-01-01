@@ -1,3 +1,5 @@
+#ifndef WORDCLOCK_CONFIG_H
+#define WORDCLOCK_CONFIG_H
 /***********************************************
  * CONFIG START
  **********************************************/
@@ -166,3 +168,4 @@ class Config {
       file.close();
     }
 };
+#endif

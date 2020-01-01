@@ -1,3 +1,5 @@
+#ifndef WORDCLOCK_TIME_H
+#define WORDCLOCK_TIME_H
 void setTime(int h, int m);
 
 int TIME_HOUR = -1;
@@ -22,3 +24,4 @@ void TIME_loop() {
     setTime(TIME_HOUR, TIME_MINUTE);
   }
 }
+#endif
