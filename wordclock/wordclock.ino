@@ -10,13 +10,14 @@
 
 #include "user_config.h"
 
+#include "src/grid.h"
 #include "src/wifi.h"
 #include "src/types.h"
 #include "src/color.h"
 #include "src/config.h"
 #include "src/dnd.h"
 #include "src/led.h"
-#include "src/grid.h"
+
 #include "src/time.h"
 #include "src/httpServer.h"
 #include "src/gui.h"

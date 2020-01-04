@@ -1,4 +1,5 @@
-#include "../grid.h"
+#include "de_DE_alt.h"
+//#include "../grid.h"
 #include "../config.h"
 #include "../dnd.h"
 #include "../led.h"
