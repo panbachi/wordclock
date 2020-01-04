@@ -12,7 +12,9 @@
   #define INCLUDE_FILE(x) QUOTE(language/x.h)
   #define GRID_LANGUAGE_STRING QUOTE(x)
   #include INCLUDE_FILE(GRID_LANGUAGE)
-  #define YYT(x) typedef class Grid_x Grid;
+  
+  #define YYC() Grid_
+  #define YYT(x) typedef class YYC()x Grid;
   YYT(GRID_LANGUAGE)
 #endif
 
