@@ -1,11 +1,8 @@
-#ifndef WORDCLOCK_LED_H
-#define WORDCLOCK_LED_H
+#include <FastLED.h>
+#include "led.h"
+#include "config.h"
 
-#define NUM_LEDS (GRID_ROWS * GRID_COLS) + 4
-
-CRGB leds[NUM_LEDS];
-
-int getLedId(int id) { 
+int Led::getLedId(int id) { 
   int col = id % GRID_COLS;
   int row = (floor)(id / GRID_COLS);
   int led = 0;
@@ -26,4 +23,5 @@ int getLedId(int id) {
 
   return led;
 }
-#endif
+
+CRGB Led::ids[NUM_LEDS];
