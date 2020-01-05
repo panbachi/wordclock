@@ -23,7 +23,7 @@
 ## Modify `user_config.h` to change config
 | Key                 | Values                                                           | Comment                  |
 |---------------------|------------------------------------------------------------------|--------------------------|
-| GRID_ROWS           | 10, 11                                                           | count of rows            |
+| GRID_ROWS           | 10<br>11                                                         | count of rows            |
 | GRID_COLS           | 11                                                               | count of cols            |
 | GRID_FIRST          | 0: top-left<br>1: top-right<br>2: buttom-left<br>3: buttom-right | position of first led    |
 | GRID_LANGUAGE       | de_DE: german<br>de_DE_alt: german alternative                   | langauge                 |
