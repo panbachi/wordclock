@@ -8,4 +8,5 @@ class Grid_de_DE {
 	
 	static void setTime(int hour, int minute);
 };
+typedef class Grid_de_DE Grid;
 #endif

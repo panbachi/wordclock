@@ -53,13 +53,15 @@ void Controller::saveDnd() {
   DynamicJsonDocument doc(2048);
   deserializeJson(doc, json);
 
-  Config::dnd_active = doc["dnd_active"].as<bool>();
+      
+  Config::dnd_active = doc["dnd_active"].as<int>() == 1;
   Config::dnd_start.hour = doc["dnd_start_hour"].as<int>();
   Config::dnd_start.minute = doc["dnd_start_minute"].as<int>();
   Config::dnd_end.hour = doc["dnd_end_hour"].as<int>();
   Config::dnd_end.minute = doc["dnd_end_minute"].as<int>();
 
   Config::save();
+  Grid::setTime(Time::hour, Time::minute);
   
   HttpServer::web.send(200, "text/html", "");
 }

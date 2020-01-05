@@ -10,5 +10,6 @@ class Led {
     static CRGB ids[];
     
     static int getLedId(int id);
+	static void setup();
 };
 #endif

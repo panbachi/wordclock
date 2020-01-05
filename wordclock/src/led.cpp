@@ -24,4 +24,15 @@ int Led::getLedId(int id) {
   return led;
 }
 
+void Led::setup() {
+  FastLED.addLeds<NEOPIXEL, DATA_PIN>(Led::ids, NUM_LEDS);
+  FastLED.setBrightness(50);
+
+  for(int i = 0; i < NUM_LEDS; i++) {
+    Led::ids[i].setRGB(0, 0, 0);
+  }
+
+  FastLED.show();
+}
+
 CRGB Led::ids[NUM_LEDS];

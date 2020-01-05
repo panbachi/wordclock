@@ -30,11 +30,11 @@
  *  
  * Options
  * -------
- * 1: de-DE:     german
- * 2: de-DE_alt: german alternative
+ * 1: de_DE:     german
+ * 2: de_DE_alt: german alternative
  */
-//#define GRID_LANGUAGE de_DE // default
-#define GRID_LANGUAGE de_DE_alt
+#define GRID_LANGUAGE de_DE
+//#define GRID_LANGUAGE de_DE_alt
 
 /* Position of single minute LEDs
  *  

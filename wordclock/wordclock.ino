@@ -31,18 +31,9 @@ void setup() {
 
   Wifi::setup();  
   HttpServer::setup();
-
-  FastLED.addLeds<NEOPIXEL, DATA_PIN>(Led::ids, NUM_LEDS);
-  FastLED.setBrightness(50);
-
-  for(int i = 0; i < NUM_LEDS; i++) {
-    Led::ids[i].setRGB(0, 0, 0);
-  }
-
-  FastLED.show();
-
+  Led::setup();
   Time::setup();
-
+  
   Grid::setTime(Time::hour, Time::minute);
 }
 

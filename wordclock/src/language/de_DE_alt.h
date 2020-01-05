@@ -8,4 +8,6 @@ class Grid_de_DE_alt {
 	
 	static void setTime(int hour, int minute);
 };
+
+typedef class Grid_de_DE_alt Grid;
 #endif

@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "de_DE.h"
 //#include "../grid.h"
 #include "../config.h"
@@ -6,6 +7,7 @@
 
 
 void Grid_de_DE::setTime(int hour, int minute) { 
+  Serial.println("de_DE");
   if(hour == -1 || minute == -1) {
 	return;
   }
