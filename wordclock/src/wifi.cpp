@@ -1,12 +1,13 @@
 #include <ESP8266WiFi.h>
-#include "wifi.h"
 #include <WiFiManager.h>
 
+#include "wifi.h"
+
 void Wifi::setup() {
-  WiFi.hostname("WordClock-TEST");
+  WiFi.hostname("WordClock");
 
   WiFiManager wifiManager;
-  wifiManager.autoConnect("WordClock-TEST");
+  wifiManager.autoConnect("WordClock");
 }
 
 void Wifi::reset() {

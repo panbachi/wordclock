@@ -1,10 +1,9 @@
 #include <ArduinoJson.h>
+
 #include "config.h"
 #include "grid.h"
-//#include "de-DE.h"
 #include "controller.h"
 #include "httpServer.h"
-
 #include "color.h"
 #include "gui.h"
 #include "wifi.h"

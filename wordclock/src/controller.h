@@ -1,5 +1,6 @@
 #ifndef WORDCLOCK_CONTROLLER_H
 #define WORDCLOCK_CONTROLLER_H
+
 class Controller {
   public:
     static void index();
@@ -11,4 +12,5 @@ class Controller {
     static void getManifest();
     static void notFound();
 };
+
 #endif

@@ -5,11 +5,11 @@
 
 class HttpServer {
   public:
-    //String header;
     static ESP8266WebServer web;
     static String ip;
     
     static void setup();
     static void loop();
 };
+
 #endif

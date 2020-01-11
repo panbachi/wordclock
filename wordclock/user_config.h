@@ -34,7 +34,6 @@
  * 2: de_DE_alt: german alternative
  */
 #define GRID_LANGUAGE de_DE
-//#define GRID_LANGUAGE de_DE_alt
 
 /* Position of single minute LEDs
  *  

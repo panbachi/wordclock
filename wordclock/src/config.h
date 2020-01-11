@@ -2,6 +2,7 @@
 #define WORDCLOCK_CONFIG_H
 
 #include <Arduino.h>
+
 #include "types.h"
 
 /***********************************************
@@ -46,11 +47,11 @@
  *  
  * Options
  * -------
- * 1: de-DE: german
- * 2: de-DA: german alternative
+ * 1: de-DE:     german
+ * 2: de-DE_alt: german alternative
  */
 #ifndef GRID_LANGUAGE
-//#define GRID_LANGUAGE de_DE // default
+  #define GRID_LANGUAGE de_DE
 //#define GRID_LANGUAGE de_DE_alt
 #endif
 
@@ -73,15 +74,6 @@
 /***********************************************
  * CONFIG END
  **********************************************/
-
-
-
-
-
-
-/*
- * Do not touch the code below this line
- */
 
 class Config {
   public:

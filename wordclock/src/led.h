@@ -12,4 +12,5 @@ class Led {
     static int getLedId(int id);
 	static void setup();
 };
+
 #endif

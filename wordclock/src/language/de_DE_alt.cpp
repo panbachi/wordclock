@@ -1,13 +1,12 @@
 #include <Arduino.h>
+
 #include "de_DE_alt.h"
-//#include "../grid.h"
+
 #include "../config.h"
 #include "../dnd.h"
 #include "../led.h"
 
-
 void Grid_de_DE_alt::setTime(int hour, int minute) { 
-  Serial.println("de_DE_alt");
   if(hour == -1 || minute == -1) {
 	return;
   }

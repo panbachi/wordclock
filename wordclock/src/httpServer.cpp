@@ -3,8 +3,6 @@
 #include "controller.h"
     
 void HttpServer::setup() {
-    
-    //HttpServer::web = ESP8266WebServer(80);
     HttpServer::ip = WiFi.localIP().toString();
     
     HttpServer::web.on("/", Controller::index);

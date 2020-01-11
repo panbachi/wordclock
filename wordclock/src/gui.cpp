@@ -1,4 +1,5 @@
 #include <Arduino.h>
+
 #include "gui.h"
 #include "color.h"
 #include "config.h"

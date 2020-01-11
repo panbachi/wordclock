@@ -1,5 +1,6 @@
 #ifndef WORDCLOCK_GRID_LANG_DE_DE_ALT_H
 #define WORDCLOCK_GRID_LANG_DE_DE_ALT_H
+
 class Grid_de_DE_alt {
 	public:
 	static int time_it_is[5];
@@ -10,4 +11,5 @@ class Grid_de_DE_alt {
 };
 
 typedef class Grid_de_DE_alt Grid;
+
 #endif
