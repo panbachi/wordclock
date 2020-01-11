@@ -1,8 +1,8 @@
+#include <Arduino.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 
 #include "time.h"
-//#include "de-DE.h"
 #include "grid.h"
 
 void Time::setup() {
@@ -17,6 +17,10 @@ void Time::loop() {
   int m = Time::ntpClient.getMinutes();
 
   if(m != Time::minute) {
+	if(m == 0 && h == Time::hour) {
+		h = (h + 1) % 24;
+	}
+	
     Time::hour = h;
     Time::minute = m;
     Grid::setTime(Time::hour, Time::minute);
