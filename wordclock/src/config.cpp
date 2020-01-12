@@ -4,6 +4,7 @@
 #include "config.h"
 #include "types.h"
 #include "time.h"
+#include "led.h"
 
 void Config::save() {
   File file = SPIFFS.open("/wordclock_config.json", "w");
@@ -14,10 +15,10 @@ void Config::save() {
   }
 
   Serial.println("Save config.");
-  
+
   Time::ntpClient.setPoolServerName(Config::ntp.c_str());
   Time::ntpClient.setTimeOffset(Config::timezone * 3600);
-  
+
   StaticJsonDocument<1024> doc;
   doc["color_bg_r"] = Config::color_bg.r;
   doc["color_bg_g"] = Config::color_bg.g;
@@ -25,6 +26,8 @@ void Config::save() {
   doc["color_fg_r"] = Config::color_fg.r;
   doc["color_fg_g"] = Config::color_fg.g;
   doc["color_fg_b"] = Config::color_fg.b;
+  doc["power_supply"] = Config::power_supply;
+  doc["brightness"] = Config::brightness;
   doc["timezone"] = Config::timezone;
   doc["dnd_active"] = Config::dnd_active;
   doc["dnd_start_hour"] = Config::dnd_start.hour;
@@ -32,21 +35,24 @@ void Config::save() {
   doc["dnd_end_hour"] = Config::dnd_end.hour;
   doc["dnd_end_minute"] = Config::dnd_end.minute;
   doc["ntp"] = Config::ntp;
-  
+
   serializeJson(doc, file);
 
   file.close();
 }
-  
+
 void Config::load() {
   Config::color_bg.r = 0;
   Config::color_bg.g = 0;
   Config::color_bg.b = 0;
-  
+
   Config::color_fg.r = 255;
   Config::color_fg.g = 255;
   Config::color_fg.b = 255;
-  
+
+  Config::power_supply = 500; // default: 500mA (USB 2.0 specification)
+  Config::brightness = 0.5;
+
   Config::timezone = 0;
 
   Config::dnd_active = false;
@@ -55,7 +61,7 @@ void Config::load() {
   Config::dnd_end.hour = -1;
   Config::dnd_end.minute = -1;
   Config::ntp = "pool.ntp.org";
-  
+
   File file = SPIFFS.open("/wordclock_config.json", "r");
 
   if(!file) {
@@ -65,7 +71,7 @@ void Config::load() {
   }
 
   Serial.println("Load config.");
-  
+
   StaticJsonDocument<1024> doc;
   deserializeJson(doc, file);
 
@@ -76,6 +82,15 @@ void Config::load() {
   Config::color_fg.r = doc["color_fg_r"].as<int>();
   Config::color_fg.g = doc["color_fg_g"].as<int>();
   Config::color_fg.b = doc["color_fg_b"].as<int>();
+
+  if(doc["power_supply"]) {
+    Config::power_supply = doc["power_supply"].as<int>();
+  }
+
+  if(doc["brightness"]) {
+    Config::brightness =
+      (doc["brightness"].as<double>() > Led::getMaxBrightnessPercnt()) ? Led::getMaxBrightnessPercnt() : doc["brightness"].as<double>();
+  }
 
   Config::timezone = doc["timezone"].as<int>();
 
@@ -88,15 +103,17 @@ void Config::load() {
   if(doc["ntp"]) {
     Config::ntp = doc["ntp"].as<String>();
   }
-  
-  Time::ntpClient.setPoolServerName(Config::ntp.c_str()); 
+
+  Time::ntpClient.setPoolServerName(Config::ntp.c_str());
   Time::ntpClient.setTimeOffset(Config::timezone * 3600);
-  
+
   file.close();
 }
 
 color_t Config::color_bg{};
 color_t Config::color_fg{};
+int Config::power_supply{};
+double Config::brightness{};
 int Config::timezone{};
 bool Config::dnd_active{};
 clock_time_t Config::dnd_start{};

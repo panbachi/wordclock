@@ -3,14 +3,16 @@
 
 #include <FastLED.h>
 
-#define NUM_LEDS (GRID_ROWS * GRID_COLS) + 4
+#define NUM_LEDS ((GRID_ROWS * GRID_COLS) + 4)
 
 class Led {
   public:
     static CRGB ids[];
-    
+
     static int getLedId(int id);
-	static void setup();
+    static void setup();
+    static double getMaxBrightnessPercnt();
+    static int getMaxNumberIlluminatedLeds();
 };
 
 #endif

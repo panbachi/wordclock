@@ -6,7 +6,7 @@
 #include "../dnd.h"
 #include "../led.h"
 
-void Grid_de_DE::setTime(int hour, int minute) { 
+void Grid_de_DE::setTime(int hour, int minute) {
   if(hour == -1 || minute == -1) {
 	return;
   }
@@ -17,15 +17,15 @@ void Grid_de_DE::setTime(int hour, int minute) {
 	}
 
 	FastLED.show();
-	
+
 	return;
   }
-  
+
   int singleMinute = minute % 5;
   int hourLimit = 6;
-  
+
   minute = (minute - (minute % 5));
-  
+
   if(minute >= 25) {
 	hour += 1;
   }
@@ -36,7 +36,7 @@ void Grid_de_DE::setTime(int hour, int minute) {
   for(int i = 0; i < NUM_LEDS; i++) {
 	Led::ids[i].setRGB(Config::color_bg.r * 0.2, Config::color_bg.g * 0.2, Config::color_bg.b * 0.2);
   }
-  
+
   for(int i = 0; i < 5; i++) {
 	Led::ids[Led::getLedId(Grid_de_DE::time_it_is[i])].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
   }
@@ -50,8 +50,8 @@ void Grid_de_DE::setTime(int hour, int minute) {
   if(hour == 1 && minute == 0) {
 	hourLimit = 3;
   }
-  
-  for(int h = 0; h < hourLimit; h++) {   
+
+  for(int h = 0; h < hourLimit; h++) {
 	if(Grid_de_DE::time_hours[hour][h] >= 0) {
 	  Led::ids[Led::getLedId(Grid_de_DE::time_hours[hour][h])].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
 	}
@@ -68,11 +68,12 @@ void Grid_de_DE::setTime(int hour, int minute) {
 	}
   }
 
+  FastLED.setBrightness(Config::brightness * 255);
   FastLED.show();
 }
 
 int Grid_de_DE::time_it_is[5] = {0, 1, 3, 4, 5}; // es ist
-	
+
 int Grid_de_DE::time_minutes[12][12] = {
   {107, 108, 109,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1}, // uhr
   {  7,   8,   9,  10,  35,  36,  37,  38,  -1,  -1,  -1,  -1}, // fünf nach
