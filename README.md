@@ -55,6 +55,12 @@ You can set a time span in which the clock should be switched off.
 #### API example
 `http://[YOUR_WORDCLOCK_IP]/?mode=time&dnd_active=1&dnd_start_hour=23&dnd_start_minute=0&dnd_end_hour=6&dnd_end_hour=15`
 
+### Set brightness
+You can set the brightness on your clock.
+
+#### API example
+`http://[YOUR_WORDCLOCK_IP]/?mode=time&brightness=100`
+
 
 
 # Support me / Follow me

@@ -57,6 +57,7 @@ typedef struct {
 typedef struct {
   color_t color_bg;
   color_t color_fg;
+  int brightness;
   int timezone;
   bool dnd_active;
   clock_time_t dnd_start;
@@ -124,6 +125,8 @@ void loadConfig() {
   CONFIG.color_fg.r = 255;
   CONFIG.color_fg.g = 255;
   CONFIG.color_fg.b = 255;
+
+  CONFIG.brightness = 50;
   
   CONFIG.timezone = 0;
 
@@ -153,6 +156,8 @@ void loadConfig() {
   CONFIG.color_fg.r = doc["color_fg_r"].as<int>();
   CONFIG.color_fg.g = doc["color_fg_g"].as<int>();
   CONFIG.color_fg.b = doc["color_fg_b"].as<int>();
+
+  CONFIG.brightness = doc["brightness"].as<int>();
 
   CONFIG.timezone = doc["timezone"].as<int>();
 
@@ -184,6 +189,7 @@ void saveConfig() {
   doc["color_fg_r"] = CONFIG.color_fg.r;
   doc["color_fg_g"] = CONFIG.color_fg.g;
   doc["color_fg_b"] = CONFIG.color_fg.b;
+  doc["brightness"] = CONFIG.brightness;
   doc["timezone"] = CONFIG.timezone;
   doc["dnd_active"] = CONFIG.dnd_active;
   doc["dnd_start_hour"] = CONFIG.dnd_start.hour;
@@ -354,6 +360,7 @@ void setTime(int hour, int minute) {
     leds[s].setRGB(CONFIG.color_fg.r, CONFIG.color_fg.g, CONFIG.color_fg.b);
   }
 
+  FastLED.setBrightness(CONFIG.brightness);
   FastLED.show();
 }
 
@@ -376,6 +383,20 @@ String getTimeForm() {
   content += "<label>Hintergrundfarbe</label>";
   content += "<input name=\"bg\" value=\"#" + rgbToHex(CONFIG.color_bg) + "\" type=\"color\">";
   content += "</div>";
+
+  content += "<div>";
+  content += "<label>Helligkeit</label>";
+  //content += "<input name=\"brightness\" type=\"range\" min=\"0\" max=\"100\">";
+  content += "<select name=\"brightness\">";
+
+  for (int i = 10; i < 101; i+=10) {
+    String label = String(i) + " &percnt;";
+    content += htmlOption(label, String(i), String(CONFIG.brightness));
+  }
+
+  content += "</select>";
+  content += "</div>";
+
   content += "<div>";
   content += "<label>Zeitzone</label>";
   content += "<select name=\"tz\">";
@@ -469,6 +490,11 @@ void change() {
       CONFIG.color_bg = hexToRgb(server.arg("bg"));
       change = true;
     }
+
+    if(server.hasArg("brightness")) {
+      CONFIG.brightness = server.arg("brightness").toInt();
+      change = true;
+    }
     
     if(server.hasArg("tz")) {
       CONFIG.timezone = server.arg("tz").toInt();
@@ -558,7 +584,6 @@ void setup() {
   loadConfig();
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-  FastLED.setBrightness(50);
 
   WiFi.hostname("WordClock");
 
