@@ -52,6 +52,9 @@ You can set a time span in which the clock should be switched off.
 ## PWA
 You can use the webbrowser function "Add to start screen" to install the webinterface as an app to your android (and possibly ios) smartphone.
 
+# Create own grid-layout
+To create your own grid-layout visit the Wiki: [Create Grid-Layout](https://github.com/panbachi/wordclock/wiki/Create-Grid-Layout)
+
 # Support me / Follow me
 [![Web](https://img.shields.io/badge/www-panbachi.de-blue.svg?style=flat-square&colorB=3d72a8&colorA=333333)](https://www.panbachi.de)
 [![Facebook](https://img.shields.io/badge/-%40panbachi.de-blue.svg?style=flat-square&logo=facebook&colorB=3B5998&colorA=333333)](https://www.facebook.com/panbachi.de/)
