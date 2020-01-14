@@ -1,5 +1,5 @@
 # WordClock
-[![Version](https://img.shields.io/badge/version-3.0.0-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2020.svg?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/version-4.0.0-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2020.svg?style=for-the-badge)](#)
 
 [![maintainer](https://img.shields.io/badge/maintainer-Goran%20Zunic%20%40panbachi-blue.svg?style=for-the-badge)](https://www.panbachi.de)
 
@@ -48,6 +48,9 @@ You can set a time offset to specify your timezone.
 
 ## Set DND
 You can set a time span in which the clock should be switched off.
+
+## PWA
+You can use the webbrowser function "Add to start screen" to install the webinterface as an app to your android (and possibly ios) smartphone.
 
 # Support me / Follow me
 [![Web](https://img.shields.io/badge/www-panbachi.de-blue.svg?style=flat-square&colorB=3d72a8&colorA=333333)](https://www.panbachi.de)
