@@ -26,7 +26,7 @@ void Grid_de_DE_alt::setTime(int hour, int minute) {
   
   minute = (minute - (minute % 5));
   
-  if(minute >= 10) {
+  if(minute >= 15) {
 	hour += 1;
   }
 
