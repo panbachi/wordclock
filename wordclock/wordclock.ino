@@ -8,8 +8,6 @@
 #include <WiFiUdp.h>
 #include <FS.h>
 
-#include "user_config.h"
-
 #include "src/grid.h"
 #include "src/wifi.h"
 #include "src/types.h"
