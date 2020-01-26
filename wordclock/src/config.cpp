@@ -5,6 +5,7 @@
 #include "types.h"
 #include "time.h"
 #include "led.h"
+#include "utcOffset.h"
 
 void Config::save() {
   File file = SPIFFS.open("/wordclock_config.json", "w");
@@ -17,7 +18,7 @@ void Config::save() {
   Serial.println("Save config.");
 
   Time::ntpClient.setPoolServerName(Config::ntp.c_str());
-  Time::ntpClient.setTimeOffset(Config::timezone * 3600);
+  Time::ntpClient.setTimeOffset(Config::timezone);
 
   StaticJsonDocument<1024> doc;
   doc["color_bg_r"] = Config::color_bg.r;
@@ -28,6 +29,7 @@ void Config::save() {
   doc["color_fg_b"] = Config::color_fg.b;
   doc["power_supply"] = Config::power_supply;
   doc["brightness"] = Config::brightness;
+  doc["tz_auto"] = Config::automatic_timezone;
   doc["timezone"] = Config::timezone;
   doc["dnd_active"] = Config::dnd_active;
   doc["dnd_start_hour"] = Config::dnd_start.hour;
@@ -53,6 +55,7 @@ void Config::load() {
   Config::power_supply = 500; // default: 500mA (USB 2.0 specification)
   Config::brightness = 0.5;
 
+  Config::automatic_timezone = true;
   Config::timezone = 0;
 
   Config::dnd_active = false;
@@ -92,7 +95,15 @@ void Config::load() {
       (doc["brightness"].as<double>() > Led::getMaxBrightnessPercnt()) ? Led::getMaxBrightnessPercnt() : doc["brightness"].as<double>();
   }
 
-  Config::timezone = doc["timezone"].as<int>();
+  if (doc["tz_auto"]) {
+    Config::automatic_timezone = doc["tz_auto"].as<bool>();
+  }
+
+  if (Config::automatic_timezone) {
+    Config::timezone = UtcOffset::getLocalizedUtcOffset();
+  } else {
+    Config::timezone = doc["timezone"].as<int>();
+  }
 
   Config::dnd_active = doc["dnd_active"].as<bool>();
   Config::dnd_start.hour = doc["dnd_start_hour"].as<int>();
@@ -105,7 +116,7 @@ void Config::load() {
   }
 
   Time::ntpClient.setPoolServerName(Config::ntp.c_str());
-  Time::ntpClient.setTimeOffset(Config::timezone * 3600);
+  Time::ntpClient.setTimeOffset(Config::timezone);
 
   file.close();
 }
@@ -114,6 +125,7 @@ color_t Config::color_bg{};
 color_t Config::color_fg{};
 int Config::power_supply{};
 double Config::brightness{};
+bool Config::automatic_timezone{};
 int Config::timezone{};
 bool Config::dnd_active{};
 clock_time_t Config::dnd_start{};

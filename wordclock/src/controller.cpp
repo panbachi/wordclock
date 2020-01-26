@@ -9,6 +9,7 @@
 #include "wifi.h"
 #include "time.h"
 #include "led.h"
+#include "utcOffset.h"
 
 void Controller::index() {
   String content = Gui::index();
@@ -41,7 +42,14 @@ void Controller::saveTime() {
   DynamicJsonDocument doc(2048);
   deserializeJson(doc, json);
 
-  Config::timezone = doc["tz"].as<int>();
+  Config::automatic_timezone = doc["tz_auto"].as<int>() == 1;
+
+  if (Config::automatic_timezone) {
+    Config::timezone = UtcOffset::getLocalizedUtcOffset();
+  } else {
+    Config::timezone = doc["tz"].as<int>();
+  }
+
   Config::ntp = doc["ntp"].as<String>();
 
   Config::save();

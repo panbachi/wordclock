@@ -90,6 +90,7 @@ class Config {
     static color_t color_fg;
     static int power_supply;
     static double brightness;
+    static bool automatic_timezone;
     static int timezone;
     static bool dnd_active;
     static clock_time_t dnd_start;

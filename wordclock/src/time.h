@@ -12,7 +12,7 @@ class Time {
     static NTPClient ntpClient;
 
     static void setup();
-    
+
     static void loop();
 };
 
