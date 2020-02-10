@@ -3,6 +3,7 @@
 #include "gui.h"
 #include "color.h"
 #include "config.h"
+#include "led.h"
 
 String Gui::pad(int value) {
   if(value < 10) {
@@ -14,11 +15,10 @@ String Gui::pad(int value) {
 
 String Gui::htmlOption(const String& label, const String& value, const String& store) {
   String content = "<option value=\"" + value + "\"";
-  
   if (store == value) {
     content += " selected=\"selected\"";
   }
-  
+
   content += ">" + label + "</option>";
 
   return content;
@@ -36,23 +36,42 @@ String Gui::getTimeForm() {
   content += "<input name=\"bg\" value=\"#" + Color::rgbToHex(Config::color_bg) + "\" type=\"color\">";
   content += "</div>";
   content += "<div>";
+  content += "<label>Stromversorgung in mA</label>";
+  content += "<input id=\"power_supply\" type=\"number\" step=\"100\" value=\"" + String(Config::power_supply) + "\">";
+  content += "</div>";
+  content += "<div>";
+  content += "<label>Helligkeit</label>";
+  content += "<select name=\"brightness\">";
+
+  for (double brightness_percnt = 0.0; brightness_percnt < Led::getMaxBrightnessPercnt(); brightness_percnt+=0.1) {
+    String label = String((int) (brightness_percnt * 100 + 0.5)) + "&percnt;"; // adding 0.5 for rounding.
+    content += Gui::htmlOption(label, String(brightness_percnt), String(Config::brightness));
+  }
+  if (Led::getMaxBrightnessPercnt() < 1.0) { // show maximum brightness percentage between the 10% steps.
+    String label = String((int) (Led::getMaxBrightnessPercnt() * 100 + 0.5)) + "&percnt;";
+    content += Gui::htmlOption(label, String(Led::getMaxBrightnessPercnt()), String(Config::brightness));
+  }
+
+  content += "</select>";
+  content += "</div>";
+  content += "<div>";
   content += "<label>Zeitzone</label>";
   content += "<select name=\"tz\">";
-  
+
   for(int i = -12; i < 13; i++) {
 
     String label = String(i);
-    
+
     if(i > 0) {
-      label = "+" + label; 
-    }    
+      label = "+" + label;
+    }
 
     content += Gui::htmlOption(label, String(i), String(Config::timezone));
   }
-  
+
   content += "</select>";
   content += "</div>";
-  
+
   content += "<div>";
   content += "<label>NTP-Server</label>";
   content += "<input name=\"ntp\" type=\"text\" value=\"" + Config::ntp + "\">";
@@ -65,40 +84,40 @@ String Gui::getTimeForm() {
   content += Gui::htmlOption("Aktiv", String(1), String(Config::dnd_active));
   content += "</select>";
   content += "</div>";
-  
+
   content += "<div>";
   content += "<label>Nachtmodus Startzeit</label>";
   content += "<select class=\"time\" name=\"dnd_start_hour\">";
-  
+
   for(int i = 0; i < 24; i++) {
     content += Gui::htmlOption(Gui::pad(i), String(i), String(Config::dnd_start.hour));
   }
-  
+
   content += "</select>:";
   content += "<select class=\"time\" name=\"dnd_start_minute\">";
 
   for(int i = 0; i < 60; i = i + 5) {
     content += Gui::htmlOption(Gui::pad(i), String(i), String(Config::dnd_start.minute));
   }
-  
+
   content += "</select>";
   content += "</div>";
-  
+
   content += "<div>";
   content += "<label>Nachtmodus Endzeit</label>";
   content += "<select class=\"time\" name=\"dnd_end_hour\">";
-  
+
   for(int i = 0; i < 24; i++) {
     content += Gui::htmlOption(Gui::pad(i), String(i), String(Config::dnd_end.hour));
   }
-  
+
   content += "</select>:";
   content += "<select class=\"time\" name=\"dnd_end_minute\">";
 
   for(int i = 0; i < 60; i = i + 5) {
     content += Gui::htmlOption(Gui::pad(i), String(i), String(Config::dnd_end.minute));
   }
-  
+
   content += "</select>";
   content += "</div>";
 
@@ -139,7 +158,7 @@ String Gui::createStyleSheet() {
 
 String Gui::createNav() {
   String content = "";
-  
+
   content += "<nav>";
   content += "<li class=\"icon\"><img src=\"/logo.svg\" width=\"32\"></li>";
   content += "<li class=\"active\" name=\"color\">";
@@ -169,8 +188,8 @@ String Gui::createNav() {
 
 String Gui::createScript() {
   String content = "";
-  
-  content += "window.onload=function(){var e=function(e){return document.getElementById(e)},n=document.querySelector('nav'),t=n.querySelectorAll('li'),d=document.querySelectorAll('main section'),i=e('save'),a=e('reset_wifi'),o=e('reset_wifi_message'),c='color',l={fg:e('fg'),bg:e('bg'),tz:e('tz'),ntp:e('ntp'),dndActive:e('dnd_active'),dndSH:e('dnd_s_h'),dndSM:e('dnd_s_m'),dndEH:e('dnd_e_h'),dndEM:e('dnd_e_m')};t.forEach(function(n){n.onclick=function(n){if('li'==n.currentTarget.tagName.toLowerCase()&&n.currentTarget.hasAttribute('name')){c=n.currentTarget.getAttribute('name');for(var a=0;a<t.length;a++)t[a].classList.remove('active');n.currentTarget.classList.add('active');for(a=0;a<d.length;a++)d[a].classList.remove('active');i.style.display='wifi'==c?'none':'inline-block',e(c).classList.add('active')}}}),i.onclick=function(e){var n={},t='/api/'+c;if('color'==c)n.fg=l.fg.value,n.bg=l.bg.value;else if('time'==c)n.tz=l.tz.value,n.ntp=l.ntp.value;else{if('dnd'!=c)return;n.dnd_active=l.dndActive.value,n.dnd_start_hour=l.dndSH.value,n.dnd_start_minute=l.dndSM.value,n.dnd_end_hour=l.dndEH.value,n.dnd_end_minute=l.dndEM.value}fetch(t,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(n)}).then(function(e){})},a.onclick=function(e){fetch('/api/wifi',{method:'DELETE',headers:{'Content-Type':'application/json'},body:''}).then(function(e){}),n.classList.add('disabled'),a.style.display='none',o.style.display='block'}};";
+
+  content += "window.onload=function(){var e=function(e){return document.getElementById(e)},n=document.querySelector('nav'),t=n.querySelectorAll('li'),d=document.querySelectorAll('main section'),i=e('save'),a=e('reset_wifi'),o=e('reset_wifi_message'),c='color',l={fg:e('fg'),bg:e('bg'),power_supply:e('power_supply'),brightness:e('brightness'),tzAuto:e('tz_auto'),tz:e('tz'),ntp:e('ntp'),dndActive:e('dnd_active'),dndSH:e('dnd_s_h'),dndSM:e('dnd_s_m'),dndEH:e('dnd_e_h'),dndEM:e('dnd_e_m')};t.forEach(function(n){n.onclick=function(n){if('li'==n.currentTarget.tagName.toLowerCase()&&n.currentTarget.hasAttribute('name')){c=n.currentTarget.getAttribute('name');for(var a=0;a<t.length;a++)t[a].classList.remove('active');n.currentTarget.classList.add('active');for(a=0;a<d.length;a++)d[a].classList.remove('active');i.style.display='wifi'==c?'none':'inline-block',e(c).classList.add('active')}}}),i.onclick=function(e){var n={},t='/api/'+c;if('color'==c)n.fg=l.fg.value,n.bg=l.bg.value,n.power_supply=l.power_supply.value,n.brightness=l.brightness.value;else if('time'==c)n.tz_auto=l.tzAuto.value,n.tz=l.tz.value,n.ntp=l.ntp.value;else{if('dnd'!=c)return;n.dnd_active=l.dndActive.value,n.dnd_start_hour=l.dndSH.value,n.dnd_start_minute=l.dndSM.value,n.dnd_end_hour=l.dndEH.value,n.dnd_end_minute=l.dndEM.value}fetch(t,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(n)}).then(function(e){})},a.onclick=function(e){fetch('/api/wifi',{method:'DELETE',headers:{'Content-Type':'application/json'},body:''}).then(function(e){}),n.classList.add('disabled'),a.style.display='none',o.style.display='block'}};";
 
   return content;
 }
@@ -179,29 +198,54 @@ String Gui::createContent() {
   String content = "";
 
   content += "<main>";
-  
+
   content += "<section id=\"color\" class=\"active\">";
   content += "<div><label>Vordergrundfarbe</label><input id=\"fg\" value=\"#" + Color::rgbToHex(Config::color_fg) + "\" type=\"color\"></div>";
   content += "<div><label>Hintergrundfarbe</label><input id=\"bg\" value=\"#" + Color::rgbToHex(Config::color_bg) + "\" type=\"color\"></div>";
+  content += "<div><label>Stromversorgung in mA</label><input id=\"power_supply\" type=\"number\" min=0 step=\"100\" value=\"" + String(Config::power_supply) + "\"></div>";
+  content += "<div>";
+  content += "<label>Helligkeit</label>";
+  content += "<select id=\"brightness\">";
+
+  for (double brightness_percnt = 0.0; brightness_percnt < Led::getMaxBrightnessPercnt(); brightness_percnt+=0.1) {
+    String label = String((int) (brightness_percnt * 100 + 0.5)) + "&percnt;"; // adding 0.5 for rounding.
+    content += Gui::htmlOption(label, String(brightness_percnt), String(Config::brightness));
+  }
+  if (Led::getMaxBrightnessPercnt() < 1.0) { // show maximum brightness percentage between the 10% steps.
+    String label = String((int) (Led::getMaxBrightnessPercnt() * 100 + 0.5)) + "&percnt;";
+    content += Gui::htmlOption(label, String(Led::getMaxBrightnessPercnt()), String(Config::brightness));
+  }
+
+  content += "</select>";
+  content += "</div>";
   content += "</section>";
-  
+
   content += "<section id=\"time\">";
-  content += "<div><label>Zeitzone</label><select id=\"tz\">";
-  
+  content += "<div><label>Automatische Zeitzone</label><select id=\"tz_auto\">";
+  content += Gui::htmlOption("Inaktiv", String(0), String(Config::automatic_timezone));
+  content += Gui::htmlOption("Aktiv", String(1), String(Config::automatic_timezone));
+  content += "</select></div>";
+  content += "<div><label>Zeitzone</label>";
+  if (Config::automatic_timezone) {
+    content += "<select id=\"tz\" disabled>";
+  } else {
+    content += "<select id=\"tz\">";
+  }
+
   for(int i = -12; i < 13; i++) {
     String label = String(i);
-    
-    if(i > 0) {
-      label = "+" + label; 
-    }    
 
-    content += Gui::htmlOption(label, String(i), String(Config::timezone));
+    if(i > 0) {
+      label = "+" + label;
+    }
+
+    content += Gui::htmlOption(label, String(i * 3600), String(Config::timezone));
   }
-  
+
   content += "</select></div>";
   content += "<div><label>NTP-Server</label><input id=\"ntp\" type=\"text\" value=\"" + Config::ntp + "\"></div>";
   content += "</section>";
-  
+
   content += "<section id=\"dnd\">";
   content += "<div><label>Nachtmodus</label><select id=\"dnd_active\">";
   content += Gui::htmlOption("Inaktiv", String(0), String(Config::dnd_active));
@@ -209,33 +253,33 @@ String Gui::createContent() {
   content += "</select></div>";
   content += "<div><label>Start</label><div class=\"time\">";
   content += "<select id=\"dnd_s_h\">";
-  
+
   for(int i = 0; i < 24; i++) {
     content += Gui::htmlOption(Gui::pad(i), String(i), String(Config::dnd_start.hour));
   }
-  
+
   content += "</select><span>:</span><select id=\"dnd_s_m\">";
-  
+
   for(int i = 0; i < 60; i = i + 5) {
     content += Gui::htmlOption(Gui::pad(i), String(i), String(Config::dnd_start.minute));
   }
-  
+
   content += "</select></div></div>";
   content += "<div><label>Ende</label><div class=\"time\"><select id=\"dnd_e_h\">";
-  
+
   for(int i = 0; i < 24; i++) {
     content += Gui::htmlOption(Gui::pad(i), String(i), String(Config::dnd_end.hour));
   }
-  
+
   content += "</select><span>:</span><select id=\"dnd_e_m\">";
-  
+
   for(int i = 0; i < 60; i = i + 5) {
     content += Gui::htmlOption(Gui::pad(i), String(i), String(Config::dnd_end.minute));
   }
-  
+
   content += "</select></div></div>";
   content += "</section>";
-  
+
   content += "<section id=\"wifi\">";
   content += "<button id=\"reset_wifi\" type=\"submit\">WiFi Einstellungen zurücksetzen</button>";
   content += "<div id=\"reset_wifi_message\">Die WiFi Einstellungen wurden zurückgesetzt. Es besteht keine Verbindung mehr zu der WordClock. Um die WordClock weiterhin zu verwenden muss das WiFi erneut eingerichtet werden.</div>";
@@ -247,7 +291,7 @@ String Gui::createContent() {
 
 String Gui::createFooter() {
   String content = "";
-  
+
   content += "<footer>";
   content += "<button id=\"save\" type=\"submit\" class=\"button\">Speichern</button>";
   content += "</footer>";
@@ -273,10 +317,10 @@ String Gui::index() {
   content += Gui::createScript();
   content += "</script>";
   content += "</head>";
-  content += "<body>";  
-  
+  content += "<body>";
+
   content += "<div id=\"c\">";
-  content += Gui::createNav();    
+  content += Gui::createNav();
   content += Gui::createContent();
   content += Gui::createFooter();
   content += "</div>";

@@ -8,10 +8,12 @@
 #include "gui.h"
 #include "wifi.h"
 #include "time.h"
+#include "led.h"
+#include "utcOffset.h"
 
 void Controller::index() {
   String content = Gui::index();
-  
+
   HttpServer::web.sendHeader("Location", "http://" + HttpServer::ip);
   HttpServer::web.send(200, "text/html", content);
 }
@@ -24,10 +26,13 @@ void Controller::saveColor() {
 
   Config::color_fg = Color::hexToRgb(doc["fg"].as<String>());
   Config::color_bg = Color::hexToRgb(doc["bg"].as<String>());
+  Config::power_supply = doc["power_supply"].as<int>();
+  Config::brightness =
+    (doc["brightness"].as<double>() > Led::getMaxBrightnessPercnt()) ? Led::getMaxBrightnessPercnt() : doc["brightness"].as<double>();
 
   Config::save();
   Grid::setTime(Time::hour, Time::minute);
-  
+
   HttpServer::web.send(200, "text/html", "");
 }
 
@@ -37,12 +42,19 @@ void Controller::saveTime() {
   DynamicJsonDocument doc(2048);
   deserializeJson(doc, json);
 
-  Config::timezone = doc["tz"].as<int>();
+  Config::automatic_timezone = doc["tz_auto"].as<int>() == 1;
+
+  if (Config::automatic_timezone) {
+    Config::timezone = UtcOffset::getLocalizedUtcOffset();
+  } else {
+    Config::timezone = doc["tz"].as<int>();
+  }
+
   Config::ntp = doc["ntp"].as<String>();
 
   Config::save();
   Grid::setTime(Time::hour, Time::minute);
-  
+
   HttpServer::web.send(200, "text/html", "");
 }
 
@@ -52,7 +64,7 @@ void Controller::saveDnd() {
   DynamicJsonDocument doc(2048);
   deserializeJson(doc, json);
 
-      
+
   Config::dnd_active = doc["dnd_active"].as<int>() == 1;
   Config::dnd_start.hour = doc["dnd_start_hour"].as<int>();
   Config::dnd_start.minute = doc["dnd_start_minute"].as<int>();
@@ -61,7 +73,7 @@ void Controller::saveDnd() {
 
   Config::save();
   Grid::setTime(Time::hour, Time::minute);
-  
+
   HttpServer::web.send(200, "text/html", "");
 }
 
@@ -73,7 +85,7 @@ void Controller::deleteWiFi() {
 
 void Controller::getLogoSvg() {
   String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg width=\"1024\" height=\"1024\" version=\"1.1\" viewBox=\"0 0 270.93 270.93\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\".13216\" y=\".13216\" width=\"270.67\" height=\"270.67\" rx=\"26.433\" ry=\"26.433\" fill=\"#333\"/><rect x=\"15.992\" y=\"15.992\" width=\"238.95\" height=\"238.95\" rx=\"23.335\" ry=\"23.335\" fill=\"#eee\"/><g fill=\"#3d72a8\"><circle cx=\"90.488\" cy=\"50.271\" r=\"13.098\"/><circle cx=\"47.096\" cy=\"50.271\" r=\"13.098\"/><circle cx=\"90.488\" cy=\"93.662\" r=\"13.098\"/><circle cx=\"133.88\" cy=\"93.662\" r=\"13.098\"/><circle cx=\"177.4\" cy=\"93.662\" r=\"13.098\"/><circle cx=\"133.88\" cy=\"180.45\" r=\"13.098\"/><circle cx=\"177.4\" cy=\"180.45\" r=\"13.098\"/><circle cx=\"220.79\" cy=\"180.45\" r=\"13.098\"/><circle cx=\"47.096\" cy=\"180.45\" r=\"13.098\"/></g></svg>";
-  
+
   HttpServer::web.send(200, "image/svg+xml", content);
 }
 

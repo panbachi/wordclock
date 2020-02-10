@@ -21,16 +21,17 @@
 #include "src/controller.h"
 
 void setup() {
-  Serial.begin(74880);
+  Serial.begin(115200);
+  Serial.println();
   SPIFFS.begin();
 
   Config::load();
 
-  Wifi::setup();  
+  Wifi::setup();
   HttpServer::setup();
   Led::setup();
   Time::setup();
-  
+
   Grid::setTime(Time::hour, Time::minute);
 }
 

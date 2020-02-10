@@ -4,6 +4,7 @@
 
 #include "time.h"
 #include "grid.h"
+#include "utcOffset.h"
 
 void Time::setup() {
   Time::ntpClient.begin();
@@ -17,13 +18,18 @@ void Time::loop() {
   int m = Time::ntpClient.getMinutes();
 
   if(m != Time::minute) {
-	if(m == 0 && h == Time::hour) {
-		h = (h + 1) % 24;
-	}
-	
+    if(m == 0 && h == Time::hour) {
+      h = (h + 1) % 24;
+    }
+
     Time::hour = h;
     Time::minute = m;
     Grid::setTime(Time::hour, Time::minute);
+
+    if (Config::automatic_timezone) {
+      Config::timezone = UtcOffset::getLocalizedUtcOffset();
+      Time::ntpClient.setTimeOffset(Config::timezone);
+    }
   }
 }
 
