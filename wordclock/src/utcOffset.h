@@ -3,7 +3,7 @@
 
 class UtcOffset {
   public:
-    static int getLocalizedUtcOffset();
+    static void updateLocalizedUtcOffset();
 };
 
 #endif

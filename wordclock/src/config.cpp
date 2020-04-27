@@ -99,10 +99,11 @@ void Config::load() {
     Config::automatic_timezone = doc["tz_auto"].as<bool>();
   }
 
+  // load the last known timezone in any case.
+  Config::timezone = doc["timezone"].as<int>();
+
   if (Config::automatic_timezone) {
-    Config::timezone = UtcOffset::getLocalizedUtcOffset();
-  } else {
-    Config::timezone = doc["timezone"].as<int>();
+    UtcOffset::updateLocalizedUtcOffset();
   }
 
   Config::dnd_active = doc["dnd_active"].as<bool>();
