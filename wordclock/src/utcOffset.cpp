@@ -9,7 +9,7 @@ void UtcOffset::updateLocalizedUtcOffset() {
   http.begin("http://worldtimeapi.org/api/ip");
   int responseCode = http.GET();
 
-  if (responseCode > 0) {
+  if (responseCode == 200) {
     String payload = http.getString();
 
     StaticJsonDocument<1024> doc;
@@ -24,6 +24,7 @@ void UtcOffset::updateLocalizedUtcOffset() {
     const int newTimezone = utcOffset + dstOffset;
 
     if (oldTimezone != newTimezone) {
+
       // save new timezone to config
       Serial.print("Old timezone: ");
       Serial.println(Config::timezone);
