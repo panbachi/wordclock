@@ -27,7 +27,7 @@ void Time::loop() {
     Grid::setTime(Time::hour, Time::minute);
 
     if (Config::automatic_timezone) {
-      Config::timezone = UtcOffset::getLocalizedUtcOffset();
+      UtcOffset::updateLocalizedUtcOffset();
       Time::ntpClient.setTimeOffset(Config::timezone);
     }
   }

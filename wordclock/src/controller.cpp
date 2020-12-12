@@ -44,10 +44,11 @@ void Controller::saveTime() {
 
   Config::automatic_timezone = doc["tz_auto"].as<int>() == 1;
 
+  // store the last known value anyway.
+  Config::timezone = doc["tz"].as<int>();
+
   if (Config::automatic_timezone) {
-    Config::timezone = UtcOffset::getLocalizedUtcOffset();
-  } else {
-    Config::timezone = doc["tz"].as<int>();
+    UtcOffset::updateLocalizedUtcOffset();
   }
 
   Config::ntp = doc["ntp"].as<String>();

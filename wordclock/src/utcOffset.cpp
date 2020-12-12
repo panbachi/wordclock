@@ -4,12 +4,12 @@
 #include "utcOffset.h"
 #include "config.h"
 
-int UtcOffset::getLocalizedUtcOffset() {
+void UtcOffset::updateLocalizedUtcOffset() {
   HTTPClient http;
   http.begin("http://worldtimeapi.org/api/ip");
   int responseCode = http.GET();
 
-  if (responseCode > 0) {
+  if (responseCode == 200) {
     String payload = http.getString();
 
     StaticJsonDocument<1024> doc;
@@ -19,9 +19,26 @@ int UtcOffset::getLocalizedUtcOffset() {
     int dstOffset = doc["dst_offset"].as<int>();
 
     http.end();
-    return utcOffset + dstOffset;
+
+    const int oldTimezone = Config::timezone;
+    const int newTimezone = utcOffset + dstOffset;
+
+    if (oldTimezone != newTimezone) {
+
+      // save new timezone to config
+      Serial.print("Old timezone: ");
+      Serial.println(Config::timezone);
+      Serial.print("New timezone: ");
+      Serial.println(utcOffset + dstOffset);
+
+      Config::timezone = utcOffset + dstOffset;
+      Config::save();
+    }
+
+    return;
   }
   http.end();
 
-  return Config::timezone; // return last known offset
+  // use last known offset
+  return;
 }
