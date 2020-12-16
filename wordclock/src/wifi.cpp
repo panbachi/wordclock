@@ -5,6 +5,7 @@
 
 void Wifi::setup() {
   WiFi.hostname("WordClock");
+  WiFi.mode(WIFI_STA);
 
   WiFiManager wifiManager;
   wifiManager.autoConnect("WordClock");
