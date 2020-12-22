@@ -43,11 +43,11 @@ String Gui::getTimeForm() {
   content += "<label>Helligkeit</label>";
   content += "<select name=\"brightness\">";
 
-  for (double brightness_percnt = 0.0; brightness_percnt < Led::getMaxBrightnessPercnt(); brightness_percnt+=0.1) {
+  for (double brightness_percnt = 0.0; brightness_percnt < Led::getMaxBrightnessPercnt(); brightness_percnt+=0.05) {
     String label = String((int) (brightness_percnt * 100 + 0.5)) + "&percnt;"; // adding 0.5 for rounding.
     content += Gui::htmlOption(label, String(brightness_percnt), String(Config::brightness));
   }
-  if (Led::getMaxBrightnessPercnt() < 1.0) { // show maximum brightness percentage between the 10% steps.
+  if (Led::getMaxBrightnessPercnt() < 1.0) { // show maximum brightness percentage between the 5% steps.
     String label = String((int) (Led::getMaxBrightnessPercnt() * 100 + 0.5)) + "&percnt;";
     content += Gui::htmlOption(label, String(Led::getMaxBrightnessPercnt()), String(Config::brightness));
   }
@@ -207,11 +207,11 @@ String Gui::createContent() {
   content += "<label>Helligkeit</label>";
   content += "<select id=\"brightness\">";
 
-  for (double brightness_percnt = 0.0; brightness_percnt < Led::getMaxBrightnessPercnt(); brightness_percnt+=0.1) {
+  for (double brightness_percnt = 0.0; brightness_percnt < Led::getMaxBrightnessPercnt(); brightness_percnt+=0.05) {
     String label = String((int) (brightness_percnt * 100 + 0.5)) + "&percnt;"; // adding 0.5 for rounding.
     content += Gui::htmlOption(label, String(brightness_percnt), String(Config::brightness));
   }
-  if (Led::getMaxBrightnessPercnt() < 1.0) { // show maximum brightness percentage between the 10% steps.
+  if (Led::getMaxBrightnessPercnt() < 1.0) { // show maximum brightness percentage between the 5% steps.
     String label = String((int) (Led::getMaxBrightnessPercnt() * 100 + 0.5)) + "&percnt;";
     content += Gui::htmlOption(label, String(Led::getMaxBrightnessPercnt()), String(Config::brightness));
   }
