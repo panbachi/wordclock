@@ -32,6 +32,8 @@
  * -------
  * 1: de_DE:     german
  * 2: de_DE_alt: german alternative
+ * 3: de_DE_s: "Es ist" only at full and half hour
+ * 4: de_DE_s1: "Es ist" only at full and half hour + Minutes in Last row (new front Plate De_de_s1)
  */
 #define GRID_LANGUAGE de_DE
 
@@ -46,3 +48,4 @@
 
 /* Data PIN, where the LED strip is connected to */
 #define DATA_PIN D4
+#define FASTLED_INTERNAL
