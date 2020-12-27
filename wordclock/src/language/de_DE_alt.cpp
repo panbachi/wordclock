@@ -67,7 +67,7 @@ void Grid_de_DE_alt::setTime(int hour, int minute) {
 	  Led::ids[s].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
 	}
   }
-
+FastLED.setBrightness(Config::brightness * 255);
   FastLED.show();
 }
 
