@@ -1,21 +1,37 @@
 #include <Arduino.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <RTClib.h>
 
 #include "time.h"
 #include "grid.h"
 #include "utcOffset.h"
 
+
 void Time::setup() {
+
+  if (!rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    delay(1000);
+  } else if (!rtc.begin()) {
+    Serial.println("Couldn't find RTC (2nd try)");
+  }
+
   Time::ntpClient.begin();
   Time::ntpClient.update();
 }
 
 void Time::loop() {
-  Time::ntpClient.update();
+  DateTime now = rtc.now();
+  int h = now.hour();
+  int m = now.minute();
 
-  int h = Time::ntpClient.getHours();
-  int m = Time::ntpClient.getMinutes();
+  if (Time::ntpClient.update()) {
+    h = Time::ntpClient.getHours();
+    m = Time::ntpClient.getMinutes();
+    rtc.adjust(DateTime(Time::ntpClient.getEpochTime()));
+  }
+  Time::ntpClient.update();
 
   if(m != Time::minute) {
     if(m == 0 && h == Time::hour) {

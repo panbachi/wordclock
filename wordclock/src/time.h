@@ -3,6 +3,7 @@
 
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <RTClib.h>
 
 class Time {
   public:
@@ -10,6 +11,7 @@ class Time {
     static int minute;
     static WiFiUDP udp;
     static NTPClient ntpClient;
+    static RTC_DS1307 rtc;
 
     static void setup();
 
