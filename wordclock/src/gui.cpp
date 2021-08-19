@@ -218,6 +218,10 @@ String Gui::createContent() {
 
   content += "</select>";
   content += "<div><label>LED check bei Start durchführen</label><select id=\"healthcheck\">";
+  content += Gui::htmlOption("Inaktiv", String(0), String(Config::healthcheck));
+  content += Gui::htmlOption("Aktiv", String(1), String(Config::healthcheck));
+  content += "</select></div>";
+
   content += "</div>";
   content += "</section>";
 
