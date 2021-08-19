@@ -19,6 +19,7 @@
 #include "src/httpServer.h"
 #include "src/gui.h"
 #include "src/controller.h"
+#include "src/healthcheck.h"
 
 void setup() {
   Serial.begin(115200);
@@ -33,6 +34,8 @@ void setup() {
   Time::setup();
 
   Grid::setTime(Time::hour, Time::minute);
+  // run simple LED check at start (uncomment to deactivate)
+  Healthcheck::run();
 }
 
 void loop() {
