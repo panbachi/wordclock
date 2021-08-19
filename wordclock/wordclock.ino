@@ -34,8 +34,11 @@ void setup() {
   Time::setup();
 
   Grid::setTime(Time::hour, Time::minute);
-  // run simple LED check at start (uncomment to deactivate)
-  Healthcheck::run();
+  
+  if (Config::healthcheck ){
+    // run simple LED check at start (uncomment to deactivate)
+    Healthcheck::run();
+  }
 }
 
 void loop() {

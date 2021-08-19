@@ -98,6 +98,7 @@ class Config {
     static clock_time_t dnd_start;
     static clock_time_t dnd_end;
     static String ntp;
+    static bool healthcheck;
 
     static void save();
     static void load();
