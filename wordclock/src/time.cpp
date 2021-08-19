@@ -51,5 +51,6 @@ void Time::loop() {
 
 int Time::hour = -1;
 int Time::minute = -1;
+RTC_DS1307 Time::rtc;
 WiFiUDP Time::udp;
 NTPClient Time::ntpClient = NTPClient(Time::udp);
