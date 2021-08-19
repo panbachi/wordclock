@@ -69,6 +69,10 @@
   #define GRID_SINGLE_MINUTES 1
 #endif
 
+#ifndef EXTRA_LEDS
+  #define EXTRA_LEDS 4
+#endif
+
 /* Data PIN, where the LED strip is connected to */
 #ifndef DATA_PIN
   #define DATA_PIN D4
