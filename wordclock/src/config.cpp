@@ -139,3 +139,4 @@ bool Config::dnd_active{};
 clock_time_t Config::dnd_start{};
 clock_time_t Config::dnd_end{};
 String Config::ntp{};
+bool Config::healthcheck{};
