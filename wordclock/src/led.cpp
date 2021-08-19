@@ -20,7 +20,7 @@ int Led::getLedId(int id) {
   }
 
   if(GRID_SINGLE_MINUTES == 0) {
-    led += 4;
+    led += EXTRA_LEDS;
   }
 
   return led;
