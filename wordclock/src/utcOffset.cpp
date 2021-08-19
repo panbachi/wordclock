@@ -5,8 +5,15 @@
 #include "config.h"
 
 void UtcOffset::updateLocalizedUtcOffset() {
+/* remove the depricated ESP8266 API call:  
+ *HTTPClient http;
+ *http.begin("http://worldtimeapi.org/api/ip");
+*/
+
+//  use the new API like below:
+  WiFiClient client;
   HTTPClient http;
-  http.begin("http://worldtimeapi.org/api/ip");
+  http.begin(client, "http://worldtimeapi.org/api/ip");
   int responseCode = http.GET();
 
   if (responseCode == 200) {
