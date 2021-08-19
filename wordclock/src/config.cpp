@@ -66,7 +66,7 @@ void Config::load() {
   Config::dnd_end.minute = -1;
   Config::ntp = "pool.ntp.org";
 
-  Config:healthcheck = false;
+  Config::healthcheck = false;
 
   File file = SPIFFS.open("/wordclock_config.json", "r");
 
