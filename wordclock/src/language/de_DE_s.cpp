@@ -60,7 +60,7 @@ for(int i = 0; i < 5; i++) { Led::ids[Led::getLedId(Grid_de_DE_s::time_it_is[i])
 
   if(GRID_SINGLE_MINUTES == 1) {
 	// single minutes
-	for(int s = (NUM_LEDS - 4); s < (NUM_LEDS - 4 + singleMinute); s++) {
+	for(int s = (NUM_LEDS - EXTRA_LEDS); s < (NUM_LEDS - EXTRA_LEDS + singleMinute); s++) {
 	  Led::ids[s].setRGB(Config::color_fg.r, Config::color_fg.g, Config::color_fg.b);
 	}
   } else {
