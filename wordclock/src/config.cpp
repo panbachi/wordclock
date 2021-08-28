@@ -37,6 +37,7 @@ void Config::save() {
   doc["dnd_end_hour"] = Config::dnd_end.hour;
   doc["dnd_end_minute"] = Config::dnd_end.minute;
   doc["ntp"] = Config::ntp;
+  doc["healthcheck"] = Config::healthcheck;
 
   serializeJson(doc, file);
 
@@ -64,6 +65,8 @@ void Config::load() {
   Config::dnd_end.hour = -1;
   Config::dnd_end.minute = -1;
   Config::ntp = "pool.ntp.org";
+
+  Config::healthcheck = false;
 
   File file = SPIFFS.open("/wordclock_config.json", "r");
 
@@ -116,6 +119,10 @@ void Config::load() {
     Config::ntp = doc["ntp"].as<String>();
   }
 
+  if(doc["healthcheck"]){
+    Config::healthcheck = doc["healthcheck"].as<bool>();
+  }
+
   Time::ntpClient.setPoolServerName(Config::ntp.c_str());
   Time::ntpClient.setTimeOffset(Config::timezone);
 
@@ -132,3 +139,4 @@ bool Config::dnd_active{};
 clock_time_t Config::dnd_start{};
 clock_time_t Config::dnd_end{};
 String Config::ntp{};
+bool Config::healthcheck{};
