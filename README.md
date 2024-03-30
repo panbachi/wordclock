@@ -30,7 +30,7 @@
 | GRID_SINGLE_MINUTES | 0: before<br>1: after                                            | position of minutes leds |
 
 # Installation
-Make your Arduino ready for Wemos D1 mini e.g. https://makesmart.net/esp8266-d1-mini-programmieren/
+Make your Arduino ready for Wemos D1 mini e.g. https://makesmart.net/blog/read/esp8266-d1-mini-programmieren-der-start-mit-der-arduino-ide
 - Change the grid settings in the `wordclock/user_config.h`.
 - Upload the sketch `wordclock/wordclock.ino` to your Wemos D1 mini (or other ESP8266).
 - Enjoy
