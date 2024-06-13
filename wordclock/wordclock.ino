@@ -7,6 +7,7 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 #include <FS.h>
+#include <RTClib.h>
 
 #include "src/grid.h"
 #include "src/wifi.h"
